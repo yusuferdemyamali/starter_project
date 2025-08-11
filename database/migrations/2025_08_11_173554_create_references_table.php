@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('references', function (Blueprint $table) {
             $table->id();
+            $table->string('client_name')->nullable();
+            $table->string('company');
+            $table->text('testimonial')->nullable();
+            $table->string('photo')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }
