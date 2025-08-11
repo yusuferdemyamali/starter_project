@@ -10,10 +10,17 @@ class EditReference extends EditRecord
 {
     protected static string $resource = ReferenceResource::class;
 
+    protected static ?string $title = 'Referansı Düzenle';
+
+    public function getBreadcrumbs(): array
+    {
+        return [];
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label("Referansı Sil")->modalHeading("Referansı Sil"),
         ];
     }
 }
