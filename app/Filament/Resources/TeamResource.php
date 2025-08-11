@@ -88,7 +88,7 @@ class TeamResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->label('Sil'),
+                    Tables\Actions\DeleteBulkAction::make()->label('Sil')->modalHeading('Ekip Üyesi Sil'),
                 ])->label('Toplu İşlemler'),
             ]);
     }
@@ -97,8 +97,8 @@ class TeamResource extends Resource
     {
         return [
             'index' => Pages\ListTeams::route('/'),
-            'create' => Pages\CreateTeam::route('/create'),
-            'edit' => Pages\EditTeam::route('/{record}/edit'),
+            'create' => Pages\CreateTeam::route('/olustur'),
+            'edit' => Pages\EditTeam::route('/{record}/duzenle'),
         ];
     }
 }
