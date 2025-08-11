@@ -10,10 +10,17 @@ class ListFaqs extends ListRecords
 {
     protected static string $resource = FaqResource::class;
 
+    protected static ?string $title = 'SSS Listesi';
+
+    public function getBreadcrumbs(): array
+    {
+        return [];
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label("Yeni SSS Ekle"),
         ];
     }
 }

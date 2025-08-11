@@ -10,10 +10,18 @@ class EditFaq extends EditRecord
 {
     protected static string $resource = FaqResource::class;
 
+    protected static ?string $title = 'SSS Düzenle';
+
+    public function getBreadcrumbs(): array
+    {
+        return [];
+    }
+
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label("SSS Sil")->modalHeading("SSS Sil"),
         ];
     }
 }
