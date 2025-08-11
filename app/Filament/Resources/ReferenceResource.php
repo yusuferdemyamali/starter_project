@@ -61,8 +61,7 @@ class ReferenceResource extends Resource
                 Tables\Columns\TextColumn::make('testimonial')
                     ->label('Referan Yazısı'),
                 Tables\Columns\ImageColumn::make('photo')
-                    ->label('Fotoğraf')
-                    ->circular(),
+                    ->label('Fotoğraf'),
                 Tables\Columns\BooleanColumn::make('is_active')
                     ->label('Durum'),
                 Tables\Columns\TextColumn::make('order')
