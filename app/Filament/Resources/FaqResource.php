@@ -23,7 +23,22 @@ class FaqResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('question')
+                    ->label('Soru')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('answer')
+                    ->label('Cevap')
+                    ->maxLength(65535)
+                    ->required(),
+                Forms\Components\Toggle::make('is_active')
+                    ->label('Durum')
+                    ->default(true),
+                Forms\Components\TextInput::make('order')
+                    ->label('Sıra')
+                    ->numeric()
+                    ->unique(ignoreRecord: true)
+                    ->required(),
             ]);
     }
 
