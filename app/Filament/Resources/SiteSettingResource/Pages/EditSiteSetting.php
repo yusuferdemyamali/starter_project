@@ -10,10 +10,17 @@ class EditSiteSetting extends EditRecord
 {
     protected static string $resource = SiteSettingResource::class;
 
+    protected static ?string $title = 'Site Ayarlarını Düzenle';
+
+    public function getBreadcrumbs(): array
+    {
+        return [];
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label("Site Ayarlarını Sil")->modalHeading("Site Ayarlarını Sil"),
         ];
     }
 }

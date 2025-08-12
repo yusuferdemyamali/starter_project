@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSiteSetting extends CreateRecord
 {
     protected static string $resource = SiteSettingResource::class;
+    protected static ?string $title = 'Site Ayarı Ekle';
+
+    public function getBreadcrumbs(): array
+    {
+        return [];
+    }
 }
