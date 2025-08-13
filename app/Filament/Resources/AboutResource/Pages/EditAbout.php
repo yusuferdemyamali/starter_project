@@ -10,10 +10,17 @@ class EditAbout extends EditRecord
 {
     protected static string $resource = AboutResource::class;
 
+    protected static ?string $title = 'Hakkımızda Yazısını Düzenle';
+
+    public function getBreadcrumbs(): array
+    {
+        return [];
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label("Hakkımızda Yazısını Sil")->modalHeading("Hakkımızda Yazısını Sil"),
         ];
     }
 }
