@@ -10,6 +10,7 @@ class CreateSiteSetting extends CreateRecord
 {
     protected static string $resource = SiteSettingResource::class;
     protected static ?string $title = 'Site Ayarı Ekle';
+    protected static bool $canCreateAnother = false;
 
     public function getBreadcrumbs(): array
     {
