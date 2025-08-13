@@ -5,6 +5,7 @@ namespace App\Filament\Resources\BlogResource\Pages;
 use App\Filament\Resources\BlogResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\BlogResource\Widgets\BlogPostStats;
 
 class ListBlogs extends ListRecords
 {
@@ -21,6 +22,13 @@ class ListBlogs extends ListRecords
     {
         return [
             Actions\CreateAction::make()->label("Yeni Blog Yazısı Ekle"),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            BlogPostStats::class,
         ];
     }
 }
