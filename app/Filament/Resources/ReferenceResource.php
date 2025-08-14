@@ -25,29 +25,44 @@ class ReferenceResource extends Resource
     {
         return $form
             ->schema([
+            Forms\Components\Group::make()
+                ->schema([
                 Forms\Components\TextInput::make('client_name')
-                    ->label('Müşteri Adı'),
+                    ->label('Müşteri Adı')
+                    ->required(),
                 Forms\Components\TextInput::make('company')
                     ->label('Şirket')
                     ->required(),
                 Forms\Components\Textarea::make('testimonial')
-                    ->label('Referan Yazısı'),
-                Forms\Components\FileUpload::make('photo')
-                    ->label('Fotoğraf')
-                    ->image()
-                    ->imageEditor()
-                    ->disk('public')
-                    ->directory('references')
-                    ->preserveFilenames(),
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Durum')
-                    ->default(true)
-                    ->required(),
-                Forms\Components\TextInput::make('order')
-                    ->label('Sıra')
-                    ->required(),
+                    ->label('Referans Yazısı')
+                    ->rows(9)
+                    ->columnSpanFull(),
+                ])->columnSpan(['lg' => 2]),
 
-            ]);
+            Forms\Components\Group::make()
+                ->schema([
+                Forms\Components\Section::make('Referans Ayarları')
+                    ->schema([
+                    Forms\Components\FileUpload::make('photo')
+                        ->label('Fotoğraf')
+                        ->image()
+                        ->imageEditor()
+                        ->disk('public')
+                        ->directory('references')
+                        ->preserveFilenames(),
+                    Forms\Components\TextInput::make('order')
+                        ->label('Sıra')
+                        ->numeric()
+                        ->default(0)
+                        ->required(),
+                    Forms\Components\Toggle::make('is_active')
+                        ->label('Aktif')
+                        ->default(true)
+                        ->required(),
+                    ]),
+                ])->columnSpan(['lg' => 1]),
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table

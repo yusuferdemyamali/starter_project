@@ -72,7 +72,6 @@ class SiteSettingResource extends Resource
                                         ->directory('sites')
                                         ->visibility('public')
                                         ->moveFiles()
-                                        ->imagePreviewHeight('100')
                                         ->helperText('Logonuzu yükleyin.'),
 
                                     Forms\Components\FileUpload::make('site_favicon')
