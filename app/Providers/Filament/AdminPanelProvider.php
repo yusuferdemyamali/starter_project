@@ -56,6 +56,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->plugin(\TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make())
             ->brandName('Forse Reklam');
     }
 }
