@@ -24,5 +24,5 @@ return [
       'column_name' => 'name', // Change the value if your field in users table is different from "name"
     ],
 
-    "navigation_sort" => 0,
+    "navigation_sort" => 1,
 ];

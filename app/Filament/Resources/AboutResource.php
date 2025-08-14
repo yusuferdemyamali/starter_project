@@ -19,6 +19,9 @@ class AboutResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Hakkımızda';
+
+    protected static ?string $navigationGroup = 'Sayfalar';
+    protected static ?int $navigationSort = 1;
     protected static bool $shouldRegisterNavigation = true;
 
     public static function getNavigationUrl(): string

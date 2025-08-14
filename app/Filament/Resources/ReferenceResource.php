@@ -21,46 +21,49 @@ class ReferenceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Referanslar';
 
+    protected static ?string $navigationGroup = 'Sayfalar';
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-            Forms\Components\Group::make()
-                ->schema([
-                Forms\Components\TextInput::make('client_name')
-                    ->label('Müşteri Adı')
-                    ->required(),
-                Forms\Components\TextInput::make('company')
-                    ->label('Şirket')
-                    ->required(),
-                Forms\Components\Textarea::make('testimonial')
-                    ->label('Referans Yazısı')
-                    ->rows(9)
-                    ->columnSpanFull(),
-                ])->columnSpan(['lg' => 2]),
-
-            Forms\Components\Group::make()
-                ->schema([
-                Forms\Components\Section::make('Referans Ayarları')
+                Forms\Components\Group::make()
                     ->schema([
-                    Forms\Components\FileUpload::make('photo')
-                        ->label('Fotoğraf')
-                        ->image()
-                        ->imageEditor()
-                        ->disk('public')
-                        ->directory('references')
-                        ->preserveFilenames(),
-                    Forms\Components\TextInput::make('order')
-                        ->label('Sıra')
-                        ->numeric()
-                        ->default(0)
-                        ->required(),
-                    Forms\Components\Toggle::make('is_active')
-                        ->label('Aktif')
-                        ->default(true)
-                        ->required(),
-                    ]),
-                ])->columnSpan(['lg' => 1]),
+                        Forms\Components\TextInput::make('client_name')
+                            ->label('Müşteri Adı')
+                            ->required(),
+                        Forms\Components\TextInput::make('company')
+                            ->label('Şirket')
+                            ->required(),
+                        Forms\Components\Textarea::make('testimonial')
+                            ->label('Referans Yazısı')
+                            ->rows(9)
+                            ->columnSpanFull(),
+                    ])->columnSpan(['lg' => 2]),
+
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Referans Ayarları')
+                            ->schema([
+                                Forms\Components\FileUpload::make('photo')
+                                    ->label('Fotoğraf')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->disk('public')
+                                    ->directory('references')
+                                    ->preserveFilenames(),
+                                Forms\Components\TextInput::make('order')
+                                    ->label('Sıra')
+                                    ->numeric()
+                                    ->default(0)
+                                    ->required(),
+                                Forms\Components\Toggle::make('is_active')
+                                    ->label('Aktif')
+                                    ->default(true)
+                                    ->required(),
+                            ]),
+                    ])->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
     }
