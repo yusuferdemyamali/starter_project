@@ -23,5 +23,6 @@ class SiteSetting extends Model
         'site_seo_title',
         'site_seo_description',
         'site_seo_keywords',
+        'is_maintenance',
     ];
 }
