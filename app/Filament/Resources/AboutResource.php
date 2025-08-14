@@ -37,20 +37,44 @@ class AboutResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Başlık')
-                    ->maxLength(255),
-                Forms\Components\RichEditor::make('content')
-                    ->label('İçerik')
-                    ->columnSpanFull()
-                    ->required(),
-                Forms\Components\FileUpload::make('image')
-                    ->label('Görsel')
-                    ->image()
-                    ->imageEditor()
-                    ->disk('public')
-                    ->directory('abouts')
-                    ->preserveFilenames(),
+                Forms\Components\Grid::make()
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('İçerik')
+                                    ->description('Hakkımızda sayfasının başlık ve metin içeriğini düzenleyin.')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('title')
+                                            ->label('Başlık')
+                                            ->required()
+                                            ->maxLength(255),
+
+                                        Forms\Components\RichEditor::make('content')
+                                            ->label('Metin')
+                                            ->required()
+                                            ->columnSpanFull(),
+                                    ]),
+                            ])
+                            ->columnSpan(['lg' => 2]),
+
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('Görsel')
+                                    ->description('Sayfada gösterilecek görseli yükleyin.')
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('image')
+                                            ->label('Sayfa Görseli')
+                                            ->image()
+                                            ->imageEditor()
+                                            ->disk('public')
+                                            ->directory('abouts')
+                                            ->preserveFilenames()
+                                            ->helperText('En iyi görünüm için 1200x800 piksel boyutunda bir görsel yükleyin.'),
+                                    ]),
+                            ])
+                            ->columnSpan(['lg' => 1]),
+                    ]),
             ]);
     }
 

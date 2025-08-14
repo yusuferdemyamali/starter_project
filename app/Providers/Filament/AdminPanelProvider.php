@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\BlogStatsWidget;
+use App\Filament\Widgets\ReferenceStatsWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -37,7 +39,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-
+                BlogStatsWidget::class,
+                ReferenceStatsWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -53,7 +56,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugin(\TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make())
             ->brandName('Forse Reklam');
     }
 }
