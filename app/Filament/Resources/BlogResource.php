@@ -186,7 +186,7 @@ class BlogResource extends Resource
                                             ->label('Kategori Adı')
                                             ->required(),
                                         Forms\Components\Hidden::make('slug')
-                                            ->default(fn($state) => \Str::slug($state['name'] ?? '')),
+                                            ->default(fn($state) => Str::slug($state['name'] ?? '')),
                                     ])
                                     ->required(),
 
