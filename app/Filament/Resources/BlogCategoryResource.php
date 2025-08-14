@@ -17,7 +17,7 @@ class BlogCategoryResource extends Resource
 {
     protected static ?string $model = BlogCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static ?string $navigationLabel = 'Blog Kategorileri';
     protected static ?string $pluralLabel = 'Blog Kategorileri';
     protected static ?string $label = 'Blog Kategorisi';
