@@ -24,22 +24,36 @@ class FaqResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('question')
-                    ->label('Soru')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('answer')
-                    ->label('Cevap')
-                    ->maxLength(65535)
-                    ->required(),
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Durum')
-                    ->default(true),
-                Forms\Components\TextInput::make('order')
-                    ->label('Sıra')
-                    ->numeric()
-                    ->unique(ignoreRecord: true)
-                    ->required(),
+                Forms\Components\Grid::make()
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('question')
+                                    ->label('Soru')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\RichEditor::make('answer')
+                                    ->label('Cevap')
+                                    ->required()
+                                    ->maxLength(65535)
+                                    ->columnSpanFull(),
+                            ])->columnSpan(2),
+
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('Durum')
+                                    ->schema([
+                                        Forms\Components\Toggle::make('is_active')
+                                            ->label('Aktif')
+                                            ->default(true),
+                                        Forms\Components\TextInput::make('order')
+                                            ->label('Sıra')
+                                            ->numeric()
+                                            ->unique(ignoreRecord: true)
+                                            ->required(),
+                                    ]),
+                            ])->columnSpan(1),
+                    ])->columns(3),
             ]);
     }
 

@@ -27,46 +27,73 @@ class TeamResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label('Adı ve Soyadı')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('position')
-                    ->label('Pozisyonu')
-                    ->maxLength(255),
-                FileUpload::make('photo')
-                    ->label('Fotoğrafı')
-                    ->image()
-                    ->imageEditor()
-                    ->disk('public')
-                    ->directory('teams')
-                    ->preserveFilenames(),
+            Forms\Components\Section::make('Temel Bilgiler')
+                ->description('Ekip üyesinin temel bilgilerini girin.')
+                ->schema([
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                    Forms\Components\Group::make()
+                        ->schema([
+                        TextInput::make('name')
+                            ->label('Adı ve Soyadı')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('position')
+                            ->label('Pozisyonu')
+                            ->maxLength(255),
+                        ]),
+                    FileUpload::make('photo')
+                        ->label('Fotoğrafı')
+                        ->image()
+                        ->imageEditor()
+                        ->disk('public')
+                        ->directory('teams')
+                        ->preserveFilenames()
+                        ->avatar(),
+                    ]),
                 Textarea::make('biography')
                     ->label('Biyografi')
                     ->autosize()
-                    ->maxLength(65535),
-                TextInput::make('email')
-                    ->label('E-posta')
-                    ->email()
-                    ->maxLength(255),
-                TextInput::make('phone')
-                    ->label('Telefon Numarası')
-                    ->tel()
-                    ->maxLength(20)
-                    ->regex('/^\+?[0-9\s\-]{7,20}$/'),
-                TextInput::make('linkedin')
-                    ->label('LinkedIn Kullanıcı Adı')
-                    ->maxLength(255),
-                Toggle::make('is_active')
-                    ->label('Durum')
-                    ->default(true)
-                    ->required(),
-                TextInput::make('order')
-                    ->label('Sıra')
-                    ->numeric()
-                    ->unique(ignoreRecord: true)
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
+                ]),
+
+            Forms\Components\Section::make('İletişim ve Diğer Bilgiler')
+                ->schema([
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                    TextInput::make('email')
+                        ->label('E-posta')
+                        ->email()
+                        ->maxLength(255),
+                    TextInput::make('phone')
+                        ->label('Telefon Numarası')
+                        ->tel()
+                        ->maxLength(20)
+                        ->regex('/^\+?[0-9\s\-]{7,20}$/'),
+                    TextInput::make('linkedin')
+                        ->label('LinkedIn Kullanıcı Adı')
+                        ->maxLength(255),
+                    ]),
+                ]),
+
+            Forms\Components\Section::make('Yönetim')
+                ->schema([
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                    Toggle::make('is_active')
+                        ->label('Aktif')
+                        ->helperText('Ekip üyesi sitede görünsün mü?')
+                        ->default(true)
+                        ->required(),
+                    TextInput::make('order')
+                        ->label('Sıralama')
+                        ->helperText('Ekip üyeleri arasındaki sıralaması.')
+                        ->numeric()
+                        ->unique(ignoreRecord: true)
+                        ->required(),
+                    ]),
+                ]),
             ]);
     }
 
