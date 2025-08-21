@@ -149,6 +149,26 @@ class SiteSettingResource extends Resource
                                 ->helperText('youtube.com/channel/your-channel'),
                         ])->columns(2),
                     ]),
+                Forms\Components\Section::make('SEO Ayarları')
+                    ->description('SEO ayarlarını yapılandırın')
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->collapsible()
+                    ->schema([
+                        Forms\Components\Grid::make()->schema([
+                            Forms\Components\TextInput::make('site_seo_title')
+                                ->label('SEO Başlığı')
+                                ->maxLength(50)
+                                ->helperText('Başlıklar kısa ve bilgilendirici olmalıdır'),
+                            Forms\Components\TextInput::make('site_seo_keywords')
+                                ->label('SEO Anahtar Kelimeleri')
+                                ->helperText('Anahtar kelimeleri virgülle ayırarak girin.'),
+                            Forms\Components\TextInput::make('site_seo_description')
+                                ->label('SEO Açıklaması')
+                                ->maxLength(160)
+                                ->columnSpanFull()
+                                ->helperText('Tüm sayfalarınız için benzersiz ve doğru açıklamalar sağlayın.'),
+                        ])->columns(2),
+                    ]),
             ]);
     }
 
