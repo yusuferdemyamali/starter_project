@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SiteSettingResource\Pages;
-use App\Filament\Resources\SiteSettingResource\RelationManagers;
 use App\Models\SiteSetting;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SiteSettingResource extends Resource
 {
@@ -26,8 +23,8 @@ class SiteSettingResource extends Resource
     protected static ?string $recordTitleAttribute = 'site_name';
 
     protected static bool $shouldRegisterNavigation = true;
-    protected static ?string $navigationLabel = 'Ayarlar';
 
+    protected static ?string $navigationLabel = 'Ayarlar';
 
     public static function getNavigationUrl(): string
     {
@@ -45,7 +42,7 @@ class SiteSettingResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Site Ayarları')
-                    ->label(fn() => __('page.general_settings.sections.site'))
+                    ->label(fn () => __('page.general_settings.sections.site'))
                     ->icon('heroicon-o-globe-alt')
                     ->collapsible()
                     ->schema([
@@ -175,6 +172,7 @@ class SiteSettingResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->latest('id'))
             ->columns([
                 Tables\Columns\TextColumn::make('site_name')->label('Site Adı'),
                 Tables\Columns\TextColumn::make('site_email')->label('E-posta Adresi'),
@@ -189,7 +187,7 @@ class SiteSettingResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->label('Sil')->modalHeading('Site Ayarlarını Sil')
+                    Tables\Actions\DeleteBulkAction::make()->label('Sil')->modalHeading('Site Ayarlarını Sil'),
                 ])->label('Toplu İşlemler'),
             ]);
     }

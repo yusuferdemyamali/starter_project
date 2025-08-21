@@ -3,25 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReferenceResource\Pages;
-use App\Filament\Resources\ReferenceResource\RelationManagers;
 use App\Models\Reference;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use function PHPUnit\Framework\directoryExists;
 
 class ReferenceResource extends Resource
 {
     protected static ?string $model = Reference::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+
     protected static ?string $navigationLabel = 'Referanslar';
 
     protected static ?string $navigationGroup = 'Sayfalar';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -71,6 +69,7 @@ class ReferenceResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->orderBy('order'))
             ->columns([
                 Tables\Columns\TextColumn::make('client_name')
                     ->label('Müşteri Adı'),

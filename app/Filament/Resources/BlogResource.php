@@ -3,39 +3,29 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogResource\Pages;
-use App\Filament\Resources\BlogResource\RelationManagers;
 use App\Models\Blog;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\BelongsToSelect;
-use Filament\Notifications\Notification;
-use Filament\Forms\Get;
-use Illuminate\Support\HtmlString;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\SpatieTagsInput;
-use Illuminate\Database\Eloquent\Model;
 use Str;
-
-
-
-
 
 class BlogResource extends Resource
 {
     protected static ?string $model = Blog::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+
     protected static ?string $navigationLabel = 'Blog Yazıları';
+
     protected static ?string $navigationGroup = 'Blog';
+
     protected static ?int $navigationSort = 3;
-
-
-
 
     public static function form(Form $form): Form
     {
@@ -53,7 +43,7 @@ class BlogResource extends Resource
                                     ->live(onBlur: true)
                                     ->maxLength(255)
                                     ->placeholder('Başlık Girin')
-                                    ->afterStateUpdated(fn(string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
                                 Forms\Components\TextInput::make('slug')
                                     ->disabled()
                                     ->label('URL')
@@ -80,7 +70,7 @@ class BlogResource extends Resource
                                                             $set('new_slug', Str::slug($state));
                                                         })
                                                         ->unique(Blog::class, 'slug', ignoreRecord: true)
-                                                        ->helperText('Yazdıkça URL otomatik olarak biçimlendirilecektir.')
+                                                        ->helperText('Yazdıkça URL otomatik olarak biçimlendirilecektir.'),
                                                 ])
                                                 ->action(function (array $data, Forms\Set $set) {
                                                     $set('slug', $data['new_slug']);
@@ -91,6 +81,7 @@ class BlogResource extends Resource
                                                         ->send();
                                                 });
                                         }
+
                                         return null;
                                     }),
 
@@ -130,6 +121,7 @@ class BlogResource extends Resource
                                     ->hint(function (Get $get): string {
                                         $wordCount = str_word_count(strip_tags($get('content')));
                                         $readingTime = ceil($wordCount / 200); // Assuming 200 words per minute
+
                                         return "{$wordCount} kelime | ~{$readingTime} dk okuma süresi";
                                     })
                                     ->extraInputAttributes(['style' => 'min-height: 500px;']),
@@ -186,7 +178,7 @@ class BlogResource extends Resource
                                             ->label('Kategori Adı')
                                             ->required(),
                                         Forms\Components\Hidden::make('slug')
-                                            ->default(fn($state) => Str::slug($state['name'] ?? '')),
+                                            ->default(fn ($state) => Str::slug($state['name'] ?? '')),
                                     ])
                                     ->required(),
 
@@ -210,6 +202,7 @@ class BlogResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with('category')) // N+1 query çözümü
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('Başlık')
@@ -286,10 +279,9 @@ class BlogResource extends Resource
 
                 Tables\Actions\DeleteBulkAction::make()
                     ->label('Sil')
-                    ->modalHeading('Blog Yazılarını Sil')
+                    ->modalHeading('Blog Yazılarını Sil'),
             ]);
     }
-
 
     public static function getPages(): array
     {

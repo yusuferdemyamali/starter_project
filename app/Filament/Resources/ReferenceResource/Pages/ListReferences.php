@@ -20,7 +20,7 @@ class ListReferences extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label("Yeni Referans Ekle"),
+            Actions\CreateAction::make()->label('Yeni Referans Ekle'),
         ];
     }
 }

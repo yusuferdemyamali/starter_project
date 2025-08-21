@@ -20,7 +20,7 @@ class EditTeam extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->label("Ekip Üyesini Sil")->modalHeading("Ekip Üyesini Sil"),
+            Actions\DeleteAction::make()->label('Ekip Üyesini Sil')->modalHeading('Ekip Üyesini Sil'),
         ];
     }
 }

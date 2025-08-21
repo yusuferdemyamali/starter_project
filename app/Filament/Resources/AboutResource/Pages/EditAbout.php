@@ -20,7 +20,7 @@ class EditAbout extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->label("Hakkımızda Yazısını Sil")->modalHeading("Hakkımızda Yazısını Sil"),
+            Actions\DeleteAction::make()->label('Hakkımızda Yazısını Sil')->modalHeading('Hakkımızda Yazısını Sil'),
         ];
     }
 }

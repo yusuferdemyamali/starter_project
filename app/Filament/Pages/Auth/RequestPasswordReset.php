@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Filament\Pages\Auth;
+
+use App\Notifications\ResetPasswordNotification;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Exception;
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Contracts\Auth\CanResetPassword;
-use App\Notifications\ResetPasswordNotification;
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset as BaseRequestPasswordReset;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Support\Facades\Password;
 
 class RequestPasswordReset extends BaseRequestPasswordReset
 {
@@ -36,7 +37,7 @@ class RequestPasswordReset extends BaseRequestPasswordReset
         $status = Password::broker(Filament::getAuthPasswordBroker())->sendResetLink(
             $data,
             function (CanResetPassword $user, string $token): void {
-                if (!method_exists($user, 'notify')) {
+                if (! method_exists($user, 'notify')) {
                     $userClass = $user::class;
                     throw new Exception("Model [{$userClass}] does not have a [notify()] method.");
                 }

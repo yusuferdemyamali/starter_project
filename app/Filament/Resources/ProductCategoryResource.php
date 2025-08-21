@@ -32,7 +32,6 @@ class ProductCategoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Ürün';
 
-
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -77,6 +76,7 @@ class ProductCategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->withCount('products')) // Ürün sayısını eager load
             ->columns([
                 TextColumn::make('name')
                     ->label('Kategori Adı')
@@ -105,7 +105,6 @@ class ProductCategoryResource extends Resource
 
                 TextColumn::make('products_count')
                     ->label('Ürün Sayısı')
-                    ->counts('products')
                     ->badge()
                     ->color('success'),
 

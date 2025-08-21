@@ -20,7 +20,7 @@ class ListSiteSettings extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label("Site Ayarı Ekle"),
+            Actions\CreateAction::make()->label('Site Ayarı Ekle'),
         ];
     }
 }

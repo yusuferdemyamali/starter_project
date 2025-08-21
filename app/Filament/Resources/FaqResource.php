@@ -3,25 +3,24 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FaqResource\Pages;
-use App\Filament\Resources\FaqResource\RelationManagers;
 use App\Models\Faq;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FaqResource extends Resource
 {
     protected static ?string $model = Faq::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
+
     protected static ?string $navigationLabel = 'SSS';
 
-        protected static ?string $navigationGroup = 'Sayfalar';
-        protected static ?int $navigationSort = 4;
+    protected static ?string $navigationGroup = 'Sayfalar';
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -63,6 +62,7 @@ class FaqResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->orderBy('order'))
             ->columns([
                 Tables\Columns\TextColumn::make('question')
                     ->label('Soru')
@@ -84,7 +84,7 @@ class FaqResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->label("SSS Sil")->modalHeading('SSS Sil'),
+                    Tables\Actions\DeleteBulkAction::make()->label('SSS Sil')->modalHeading('SSS Sil'),
                 ])->label('Toplu İşlemler'),
             ]);
     }

@@ -17,11 +17,10 @@ class EditFaq extends EditRecord
         return [];
     }
 
-
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->label("SSS Sil")->modalHeading("SSS Sil"),
+            Actions\DeleteAction::make()->label('SSS Sil')->modalHeading('SSS Sil'),
         ];
     }
 }

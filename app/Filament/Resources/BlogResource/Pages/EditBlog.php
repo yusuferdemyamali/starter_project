@@ -20,7 +20,7 @@ class EditBlog extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->label("Blog Yazısını Sil")->modalHeading("Blog Yazısını Sil"),
+            Actions\DeleteAction::make()->label('Blog Yazısını Sil')->modalHeading('Blog Yazısını Sil'),
         ];
     }
 }

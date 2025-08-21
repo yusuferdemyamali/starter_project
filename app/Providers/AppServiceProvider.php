@@ -2,12 +2,30 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\About;
+use App\Models\Blog;
+use App\Models\BlogCategory;
+use App\Models\Faq;
+use App\Models\Gallery;
+use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\Reference;
+use App\Models\SiteSetting;
+use App\Models\Team;
+use App\Observers\AboutObserver;
+use App\Observers\BlogCategoryObserver;
+use App\Observers\BlogObserver;
+use App\Observers\FaqObserver;
+use App\Observers\GalleryObserver;
+use App\Observers\ProductCategoryObserver;
+use App\Observers\ProductObserver;
+use App\Observers\ReferenceObserver;
+use App\Observers\SiteSettingObserver;
+use App\Observers\TeamObserver;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\View as ViewFacade;
 use Filament\Support\Facades\FilamentView;
-
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +42,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Model Observer'larını kaydet - Cache invalidation için
+        Blog::observe(BlogObserver::class);
+        BlogCategory::observe(BlogCategoryObserver::class);
+        Product::observe(ProductObserver::class);
+        ProductCategory::observe(ProductCategoryObserver::class);
+        
+        // Diğer modüller için observer'lar
+        Team::observe(TeamObserver::class);
+        Gallery::observe(GalleryObserver::class);
+        Reference::observe(ReferenceObserver::class);
+        Faq::observe(FaqObserver::class);
+        About::observe(AboutObserver::class);
+        SiteSetting::observe(SiteSettingObserver::class);
+
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
                 ->locales(['tr', 'en']); // also accepts a closure
@@ -31,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
 
         FilamentView::registerRenderHook(
             'panels::auth.login.form.after',
-            fn(): View => view('filament.login_extra')
+            fn (): View => view('filament.login_extra')
         );
     }
 }

@@ -106,6 +106,7 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with('category')) // N+1 query çözümü
             ->columns([
                 ImageColumn::make('image')
                     ->label('Resim')

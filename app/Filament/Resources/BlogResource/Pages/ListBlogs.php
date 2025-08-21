@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\BlogResource\Pages;
 
 use App\Filament\Resources\BlogResource;
+use App\Filament\Resources\BlogResource\Widgets\BlogPostStats;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use App\Filament\Resources\BlogResource\Widgets\BlogPostStats;
 
 class ListBlogs extends ListRecords
 {
@@ -21,7 +21,7 @@ class ListBlogs extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label("Yeni Blog Yazısı Ekle"),
+            Actions\CreateAction::make()->label('Yeni Blog Yazısı Ekle'),
         ];
     }
 

@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::table('site_settings', function (Blueprint $table) {
-        $table->boolean('is_maintenance')->default(false)->after('site_seo_keywords');
-    });
+        if (! Schema::hasColumn('site_settings', 'is_maintenance')) {
+            Schema::table('site_settings', function (Blueprint $table) {
+                $table->boolean('is_maintenance')->default(false)->after('site_seo_keywords');
+            });
+        }
     }
 
     /**

@@ -20,7 +20,7 @@ class EditSiteSetting extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->label("Site Ayarlarını Sil")->modalHeading("Site Ayarlarını Sil"),
+            Actions\DeleteAction::make()->label('Site Ayarlarını Sil')->modalHeading('Site Ayarlarını Sil'),
         ];
     }
 }

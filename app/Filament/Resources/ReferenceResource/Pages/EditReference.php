@@ -20,7 +20,7 @@ class EditReference extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->label("Referansı Sil")->modalHeading("Referansı Sil"),
+            Actions\DeleteAction::make()->label('Referansı Sil')->modalHeading('Referansı Sil'),
         ];
     }
 }
