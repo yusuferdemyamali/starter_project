@@ -40,13 +40,13 @@ class SiteSettingObserver
             'social_media_links',
             'contact_info',
             'seo_info',
-            'maintenance_status'
+            'maintenance_status',
         ];
 
         foreach ($patterns as $pattern) {
             Cache::forget($pattern);
             for ($i = 1; $i <= 20; $i++) {
-                Cache::forget($pattern . '_' . $i);
+                Cache::forget($pattern.'_'.$i);
             }
         }
     }

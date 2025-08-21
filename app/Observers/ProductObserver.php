@@ -21,7 +21,7 @@ class ProductObserver
     public function updated(Product $product): void
     {
         $this->clearCache($product);
-        
+
         // Kategori değiştirildi mi kontrol et
         if ($product->isDirty('category_id')) {
             $originalCategoryId = $product->getOriginal('category_id');

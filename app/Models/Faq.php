@@ -46,7 +46,7 @@ class Faq extends Model
     public static function getCachedActiveFaqs()
     {
         $key = CacheService::generateKey('active_faqs');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -64,7 +64,7 @@ class Faq extends Model
     public static function getCachedFaqsByCategory(string $category)
     {
         $key = CacheService::generateKey('faqs_by_category', $category);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -83,7 +83,7 @@ class Faq extends Model
     public static function getCachedPopularFaqs(int $limit = 8)
     {
         $key = CacheService::generateKey('popular_faqs', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -102,7 +102,7 @@ class Faq extends Model
     public static function getCachedFaqCategories()
     {
         $key = CacheService::generateKey('faq_categories');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,

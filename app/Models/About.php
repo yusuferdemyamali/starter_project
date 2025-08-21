@@ -14,7 +14,7 @@ class About extends Model
         'image',
         'section',
         'is_active',
-        'order'
+        'order',
     ];
 
     protected $casts = [
@@ -44,7 +44,7 @@ class About extends Model
     public static function getCachedActiveAboutSections()
     {
         $key = CacheService::generateKey('active_about_sections');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL, // Hakkımda bilgileri nadiren değişir
@@ -62,7 +62,7 @@ class About extends Model
     public static function getCachedAboutBySection(string $section)
     {
         $key = CacheService::generateKey('about_by_section', $section);
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -81,7 +81,7 @@ class About extends Model
     public static function getCachedMainAboutContent()
     {
         $key = CacheService::generateKey('main_about_content');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -99,7 +99,7 @@ class About extends Model
     public static function getCachedAboutSectionsByCategory()
     {
         $key = CacheService::generateKey('about_sections_by_category');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,

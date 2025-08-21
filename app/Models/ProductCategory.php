@@ -69,7 +69,7 @@ class ProductCategory extends Model
     public static function getCachedActiveCategories()
     {
         $key = CacheService::generateKey('active_product_categories');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -88,7 +88,7 @@ class ProductCategory extends Model
     public function getCachedProductsWithPagination(int $perPage = 12)
     {
         $key = CacheService::generateKey('category_products_paginated', $this->id, $perPage, request('page', 1));
-        
+
         return CacheService::remember(
             $key,
             CacheService::SHORT_TTL, // Pagination için kısa cache
@@ -107,7 +107,7 @@ class ProductCategory extends Model
     public function getCachedActiveProductsCount(): int
     {
         $key = CacheService::generateKey('category_active_products_count', $this->id);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -123,7 +123,7 @@ class ProductCategory extends Model
     public static function getCachedPopularCategories(int $limit = 6)
     {
         $key = CacheService::generateKey('popular_product_categories', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,

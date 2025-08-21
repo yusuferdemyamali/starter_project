@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         BlogCategory::observe(BlogCategoryObserver::class);
         Product::observe(ProductObserver::class);
         ProductCategory::observe(ProductCategoryObserver::class);
-        
+
         // Diğer modüller için observer'lar
         Team::observe(TeamObserver::class);
         Gallery::observe(GalleryObserver::class);

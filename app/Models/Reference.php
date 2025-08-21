@@ -44,7 +44,7 @@ class Reference extends Model
     public static function getCachedActiveReferences(int $limit = 10)
     {
         $key = CacheService::generateKey('active_references', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -63,13 +63,13 @@ class Reference extends Model
     public static function getCachedReferencesByCompany(string $company)
     {
         $key = CacheService::generateKey('references_by_company', $company);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
             function () use ($company) {
                 return static::active()
-                    ->where('company', 'like', '%' . $company . '%')
+                    ->where('company', 'like', '%'.$company.'%')
                     ->ordered()
                     ->get();
             }
@@ -82,7 +82,7 @@ class Reference extends Model
     public static function getCachedFeaturedReferences(int $limit = 6)
     {
         $key = CacheService::generateKey('featured_references', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -101,7 +101,7 @@ class Reference extends Model
     public static function getCachedReference(int $id)
     {
         $key = CacheService::generateKey('reference', $id);
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,

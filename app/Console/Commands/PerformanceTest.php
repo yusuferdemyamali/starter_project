@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use App\Models\About;
 use App\Models\Blog;
-use App\Models\Team;
+use App\Models\Faq;
 use App\Models\Gallery;
 use App\Models\Reference;
-use App\Models\Faq;
-use App\Models\About;
+use App\Models\Team;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class PerformanceTest extends Command
 {
@@ -33,7 +33,7 @@ class PerformanceTest extends Command
     public function handle()
     {
         $this->info('🚀 Performans Testi Başlatılıyor...');
-        
+
         // Query sayacını sıfırla
         DB::flushQueryLog();
         DB::enableQueryLog();
@@ -50,21 +50,21 @@ class PerformanceTest extends Command
         foreach ($models as $name => $modelClass) {
             $this->testModel($name, $modelClass);
         }
-        
+
         $this->info('✅ Performans testi tamamlandı!');
     }
 
-    private function testModel($name, $modelClass)
+    private function test_model($name, $modelClass)
     {
         $this->info("\n📊 {$name} Model Performans Testi:");
-        
+
         // Cache'siz test
         DB::flushQueryLog();
         $start = microtime(true);
         $modelClass::all();
         $withoutCacheTime = microtime(true) - $start;
         $withoutCacheQueries = count(DB::getQueryLog());
-        
+
         // Cache'li test
         DB::flushQueryLog();
         $start = microtime(true);
@@ -75,7 +75,7 @@ class PerformanceTest extends Command
         }
         $withCacheTime = microtime(true) - $start;
         $withCacheQueries = count(DB::getQueryLog());
-        
+
         // İkinci cache çağrısı (tamamen cache'den)
         DB::flushQueryLog();
         $start = microtime(true);
@@ -86,18 +86,18 @@ class PerformanceTest extends Command
         }
         $secondCacheTime = microtime(true) - $start;
         $secondCacheQueries = count(DB::getQueryLog());
-        
+
         // Sonuçları göster
-        $this->line("Cache'siz: " . number_format($withoutCacheTime * 1000, 2) . "ms ({$withoutCacheQueries} query)");
-        $this->line("İlk Cache: " . number_format($withCacheTime * 1000, 2) . "ms ({$withCacheQueries} query)");
-        $this->line("İkinci Cache: " . number_format($secondCacheTime * 1000, 2) . "ms ({$secondCacheQueries} query)");
-        
+        $this->line("Cache'siz: ".number_format($withoutCacheTime * 1000, 2)."ms ({$withoutCacheQueries} query)");
+        $this->line('İlk Cache: '.number_format($withCacheTime * 1000, 2)."ms ({$withCacheQueries} query)");
+        $this->line('İkinci Cache: '.number_format($secondCacheTime * 1000, 2)."ms ({$secondCacheQueries} query)");
+
         if ($withoutCacheTime > 0) {
             $improvement = (($withoutCacheTime - $secondCacheTime) / $withoutCacheTime) * 100;
             $queryReduction = (($withoutCacheQueries - $secondCacheQueries) / max($withoutCacheQueries, 1)) * 100;
-            
-            $this->line("🚀 Hız iyileştirmesi: " . number_format($improvement, 1) . "%");
-            $this->line("📉 Query azalması: " . number_format($queryReduction, 1) . "%");
+
+            $this->line('🚀 Hız iyileştirmesi: '.number_format($improvement, 1).'%');
+            $this->line('📉 Query azalması: '.number_format($queryReduction, 1).'%');
         }
     }
 }

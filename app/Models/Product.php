@@ -72,7 +72,7 @@ class Product extends Model
     public static function getCachedActiveProducts(int $limit = 20)
     {
         $key = CacheService::generateKey('active_products', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -92,7 +92,7 @@ class Product extends Model
     public static function getCachedProductsByCategory(int $categoryId, int $limit = 20)
     {
         $key = CacheService::generateKey('products_by_category', $categoryId, $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -113,7 +113,7 @@ class Product extends Model
     public static function getCachedProductsByPriceRange(float $min, float $max, int $limit = 20)
     {
         $key = CacheService::generateKey('products_price_range', $min, $max, $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -134,7 +134,7 @@ class Product extends Model
     public static function getCachedFeaturedProducts(int $limit = 8)
     {
         $key = CacheService::generateKey('featured_products', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -154,7 +154,7 @@ class Product extends Model
     public function getCachedRelatedProducts(int $limit = 4)
     {
         $key = CacheService::generateKey('related_products', $this->id, $this->category_id, $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,

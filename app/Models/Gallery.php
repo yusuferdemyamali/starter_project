@@ -49,7 +49,7 @@ class Gallery extends Model
     public static function getCachedActiveGallery(int $limit = 20)
     {
         $key = CacheService::generateKey('active_gallery', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
@@ -69,7 +69,7 @@ class Gallery extends Model
     public static function getCachedGalleryBySlug(string $slug)
     {
         $key = CacheService::generateKey('gallery_by_slug', $slug);
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -88,7 +88,7 @@ class Gallery extends Model
     public static function getCachedLatestGallery(int $limit = 12)
     {
         $key = CacheService::generateKey('latest_gallery', $limit);
-        
+
         return CacheService::remember(
             $key,
             CacheService::SHORT_TTL,

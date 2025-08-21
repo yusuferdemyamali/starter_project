@@ -21,7 +21,7 @@ class BlogObserver
     public function updated(Blog $blog): void
     {
         $this->clearCache($blog);
-        
+
         // Kategori değiştirildi mi kontrol et
         if ($blog->isDirty('blog_category_id')) {
             $originalCategoryId = $blog->getOriginal('blog_category_id');

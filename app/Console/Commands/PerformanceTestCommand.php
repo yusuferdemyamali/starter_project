@@ -3,9 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Blog;
-use App\Models\BlogCategory;
 use App\Models\Product;
-use App\Models\ProductCategory;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -69,13 +67,13 @@ class PerformanceTestCommand extends Command
         for ($i = 0; $i < $iterations; $i++) {
             DB::enableQueryLog();
             $start = microtime(true);
-            
+
             // Simulate old behavior (without eager loading)
             $blogs = Blog::take(10)->get();
             foreach ($blogs as $blog) {
                 $category = $blog->category; // This would cause N+1 queries
             }
-            
+
             $timeBefore += microtime(true) - $start;
             $queryCountBefore += count(DB::getQueryLog());
             DB::flushQueryLog();
@@ -88,13 +86,13 @@ class PerformanceTestCommand extends Command
         for ($i = 0; $i < $iterations; $i++) {
             DB::enableQueryLog();
             $start = microtime(true);
-            
+
             // New optimized behavior (with eager loading)
             $blogs = Blog::with('category')->take(10)->get();
             foreach ($blogs as $blog) {
                 $category = $blog->category;
             }
-            
+
             $timeAfter += microtime(true) - $start;
             $queryCountAfter += count(DB::getQueryLog());
             DB::flushQueryLog();
@@ -124,7 +122,7 @@ class PerformanceTestCommand extends Command
             'cached_method' => [
                 'time_ms' => round($cacheTime * 1000, 2),
                 'avg_time_ms' => round(($cacheTime / $iterations) * 1000, 2),
-            ]
+            ],
         ];
     }
 
@@ -142,12 +140,12 @@ class PerformanceTestCommand extends Command
         for ($i = 0; $i < $iterations; $i++) {
             DB::enableQueryLog();
             $start = microtime(true);
-            
+
             $products = Product::take(10)->get();
             foreach ($products as $product) {
                 $category = $product->category; // N+1 query
             }
-            
+
             $timeBefore += microtime(true) - $start;
             $queryCountBefore += count(DB::getQueryLog());
             DB::flushQueryLog();
@@ -160,12 +158,12 @@ class PerformanceTestCommand extends Command
         for ($i = 0; $i < $iterations; $i++) {
             DB::enableQueryLog();
             $start = microtime(true);
-            
+
             $products = Product::with('category')->take(10)->get();
             foreach ($products as $product) {
                 $category = $product->category;
             }
-            
+
             $timeAfter += microtime(true) - $start;
             $queryCountAfter += count(DB::getQueryLog());
             DB::flushQueryLog();
@@ -195,7 +193,7 @@ class PerformanceTestCommand extends Command
             'cached_method' => [
                 'time_ms' => round($cacheTime * 1000, 2),
                 'avg_time_ms' => round(($cacheTime / $iterations) * 1000, 2),
-            ]
+            ],
         ];
     }
 
@@ -248,59 +246,59 @@ class PerformanceTestCommand extends Command
         $this->newLine();
         $this->info('📝 BLOG PERFORMANCE:');
         $blogResults = $results['blog_tests'];
-        
+
         $this->table(['Metric', 'Without Eager Loading', 'With Eager Loading', 'Cached Method'], [
             [
                 'Avg Queries per Request',
                 $blogResults['without_eager_loading']['avg_queries'],
                 $blogResults['with_eager_loading']['avg_queries'],
-                'N/A (cached)'
+                'N/A (cached)',
             ],
             [
                 'Avg Time (ms)',
                 $blogResults['without_eager_loading']['avg_time_ms'],
                 $blogResults['with_eager_loading']['avg_time_ms'],
-                $blogResults['cached_method']['avg_time_ms']
+                $blogResults['cached_method']['avg_time_ms'],
             ],
             [
                 'Performance Improvement',
                 'Baseline',
                 $this->calculateImprovement($blogResults['without_eager_loading']['avg_time_ms'], $blogResults['with_eager_loading']['avg_time_ms']),
-                $this->calculateImprovement($blogResults['without_eager_loading']['avg_time_ms'], $blogResults['cached_method']['avg_time_ms'])
-            ]
+                $this->calculateImprovement($blogResults['without_eager_loading']['avg_time_ms'], $blogResults['cached_method']['avg_time_ms']),
+            ],
         ]);
 
         // Product Results
         $this->newLine();
         $this->info('🛍️ PRODUCT PERFORMANCE:');
         $productResults = $results['product_tests'];
-        
+
         $this->table(['Metric', 'Without Eager Loading', 'With Eager Loading', 'Cached Method'], [
             [
                 'Avg Queries per Request',
                 $productResults['without_eager_loading']['avg_queries'],
                 $productResults['with_eager_loading']['avg_queries'],
-                'N/A (cached)'
+                'N/A (cached)',
             ],
             [
                 'Avg Time (ms)',
                 $productResults['without_eager_loading']['avg_time_ms'],
                 $productResults['with_eager_loading']['avg_time_ms'],
-                $productResults['cached_method']['avg_time_ms']
+                $productResults['cached_method']['avg_time_ms'],
             ],
             [
                 'Performance Improvement',
                 'Baseline',
                 $this->calculateImprovement($productResults['without_eager_loading']['avg_time_ms'], $productResults['with_eager_loading']['avg_time_ms']),
-                $this->calculateImprovement($productResults['without_eager_loading']['avg_time_ms'], $productResults['cached_method']['avg_time_ms'])
-            ]
+                $this->calculateImprovement($productResults['without_eager_loading']['avg_time_ms'], $productResults['cached_method']['avg_time_ms']),
+            ],
         ]);
 
         // Cache Results
         $this->newLine();
         $this->info('⚡ CACHE PERFORMANCE:');
         $cacheResults = $results['cache_tests'];
-        
+
         $this->table(['Operation', 'Avg Time (ms)'], [
             ['Write to Cache', $cacheResults['avg_write_ms']],
             ['Read from Cache', $cacheResults['avg_read_ms']],
@@ -316,11 +314,14 @@ class PerformanceTestCommand extends Command
      */
     private function calculateImprovement(float $before, float $after): string
     {
-        if ($before <= 0) return 'N/A';
-        
+        if ($before <= 0) {
+            return 'N/A';
+        }
+
         $improvement = (($before - $after) / $before) * 100;
-        return $improvement > 0 
-            ? '+' . round($improvement, 1) . '% faster'
-            : round(abs($improvement), 1) . '% slower';
+
+        return $improvement > 0
+            ? '+'.round($improvement, 1).'% faster'
+            : round(abs($improvement), 1).'% slower';
     }
 }

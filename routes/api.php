@@ -26,7 +26,7 @@ Route::prefix('blogs')->group(function () {
     Route::get('/{slug}', [BlogController::class, 'show']);
 });
 
-// Product API Routes - Cache enabled  
+// Product API Routes - Cache enabled
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/featured', [ProductController::class, 'featured']);

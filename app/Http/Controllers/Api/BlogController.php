@@ -16,16 +16,16 @@ class BlogController extends Controller
     public function index(Request $request): JsonResponse
     {
         $limit = min($request->get('limit', 10), 50); // Max 50
-        
+
         $blogs = Blog::getCachedActiveBlogs($limit);
-        
+
         return response()->json([
             'success' => true,
             'data' => $blogs,
             'meta' => [
                 'count' => $blogs->count(),
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -35,17 +35,17 @@ class BlogController extends Controller
     public function byCategory(int $categoryId, Request $request): JsonResponse
     {
         $limit = min($request->get('limit', 10), 50);
-        
+
         $blogs = Blog::getCachedBlogsByCategory($categoryId, $limit);
-        
+
         return response()->json([
             'success' => true,
             'data' => $blogs,
             'meta' => [
                 'count' => $blogs->count(),
                 'category_id' => $categoryId,
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -55,25 +55,25 @@ class BlogController extends Controller
     public function show(string $slug): JsonResponse
     {
         $blog = Blog::getCachedBlogBySlug($slug);
-        
-        if (!$blog) {
+
+        if (! $blog) {
             return response()->json([
                 'success' => false,
-                'message' => 'Blog bulunamadı'
+                'message' => 'Blog bulunamadı',
             ], 404);
         }
-        
+
         $relatedBlogs = $blog->getCachedRelatedBlogs(5);
-        
+
         return response()->json([
             'success' => true,
             'data' => [
                 'blog' => $blog,
-                'related_blogs' => $relatedBlogs
+                'related_blogs' => $relatedBlogs,
             ],
             'meta' => [
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -83,14 +83,14 @@ class BlogController extends Controller
     public function categories(): JsonResponse
     {
         $categories = BlogCategory::getCachedActiveCategories();
-        
+
         return response()->json([
             'success' => true,
             'data' => $categories,
             'meta' => [
                 'count' => $categories->count(),
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 }

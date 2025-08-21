@@ -34,8 +34,7 @@ class BlogCategoryResource extends Resource
                     ->label('Kategori Adı')
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => 
-                        $operation === 'create' ? $set('slug', \Str::slug($state)) : null)
+                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Str::slug($state)) : null)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
                     ->label('Slug')

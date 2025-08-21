@@ -51,7 +51,7 @@ class Team extends Model
     public static function getCachedActiveTeamMembers()
     {
         $key = CacheService::generateKey('active_team_members');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -69,13 +69,13 @@ class Team extends Model
     public static function getCachedTeamMembersByPosition(string $position)
     {
         $key = CacheService::generateKey('team_members_by_position', $position);
-        
+
         return CacheService::remember(
             $key,
             CacheService::DEFAULT_TTL,
             function () use ($position) {
                 return static::active()
-                    ->where('position', 'like', '%' . $position . '%')
+                    ->where('position', 'like', '%'.$position.'%')
                     ->ordered()
                     ->get();
             }
@@ -88,7 +88,7 @@ class Team extends Model
     public static function getCachedTeamMember(int $id)
     {
         $key = CacheService::generateKey('team_member', $id);
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,

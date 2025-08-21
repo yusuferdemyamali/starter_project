@@ -38,13 +38,13 @@ class FaqObserver
             'active_faqs',
             'faqs_by_category',
             'popular_faqs',
-            'faq_categories'
+            'faq_categories',
         ];
 
         foreach ($patterns as $pattern) {
             Cache::forget($pattern);
             for ($i = 1; $i <= 50; $i++) {
-                Cache::forget($pattern . '_' . $i);
+                Cache::forget($pattern.'_'.$i);
             }
         }
     }

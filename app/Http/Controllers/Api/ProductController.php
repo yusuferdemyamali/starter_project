@@ -16,16 +16,16 @@ class ProductController extends Controller
     public function index(Request $request): JsonResponse
     {
         $limit = min($request->get('limit', 20), 100); // Max 100
-        
+
         $products = Product::getCachedActiveProducts($limit);
-        
+
         return response()->json([
             'success' => true,
             'data' => $products,
             'meta' => [
                 'count' => $products->count(),
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -35,17 +35,17 @@ class ProductController extends Controller
     public function byCategory(int $categoryId, Request $request): JsonResponse
     {
         $limit = min($request->get('limit', 20), 100);
-        
+
         $products = Product::getCachedProductsByCategory($categoryId, $limit);
-        
+
         return response()->json([
             'success' => true,
             'data' => $products,
             'meta' => [
                 'count' => $products->count(),
                 'category_id' => $categoryId,
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -57,15 +57,15 @@ class ProductController extends Controller
         $request->validate([
             'min_price' => 'required|numeric|min:0',
             'max_price' => 'required|numeric|gt:min_price',
-            'limit' => 'integer|min:1|max:100'
+            'limit' => 'integer|min:1|max:100',
         ]);
-        
+
         $minPrice = $request->get('min_price');
         $maxPrice = $request->get('max_price');
         $limit = $request->get('limit', 20);
-        
+
         $products = Product::getCachedProductsByPriceRange($minPrice, $maxPrice, $limit);
-        
+
         return response()->json([
             'success' => true,
             'data' => $products,
@@ -73,10 +73,10 @@ class ProductController extends Controller
                 'count' => $products->count(),
                 'price_range' => [
                     'min' => $minPrice,
-                    'max' => $maxPrice
+                    'max' => $maxPrice,
                 ],
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -86,16 +86,16 @@ class ProductController extends Controller
     public function featured(Request $request): JsonResponse
     {
         $limit = min($request->get('limit', 8), 20);
-        
+
         $products = Product::getCachedFeaturedProducts($limit);
-        
+
         return response()->json([
             'success' => true,
             'data' => $products,
             'meta' => [
                 'count' => $products->count(),
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -105,25 +105,25 @@ class ProductController extends Controller
     public function show(int $id): JsonResponse
     {
         $product = Product::with('category')->find($id);
-        
-        if (!$product || !$product->is_active) {
+
+        if (! $product || ! $product->is_active) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ürün bulunamadı'
+                'message' => 'Ürün bulunamadı',
             ], 404);
         }
-        
+
         $relatedProducts = $product->getCachedRelatedProducts(4);
-        
+
         return response()->json([
             'success' => true,
             'data' => [
                 'product' => $product,
-                'related_products' => $relatedProducts
+                'related_products' => $relatedProducts,
             ],
             'meta' => [
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -133,14 +133,14 @@ class ProductController extends Controller
     public function categories(): JsonResponse
     {
         $categories = ProductCategory::getCachedActiveCategories();
-        
+
         return response()->json([
             'success' => true,
             'data' => $categories,
             'meta' => [
                 'count' => $categories->count(),
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 
@@ -150,16 +150,16 @@ class ProductController extends Controller
     public function popularCategories(Request $request): JsonResponse
     {
         $limit = min($request->get('limit', 6), 20);
-        
+
         $categories = ProductCategory::getCachedPopularCategories($limit);
-        
+
         return response()->json([
             'success' => true,
             'data' => $categories,
             'meta' => [
                 'count' => $categories->count(),
-                'cache_enabled' => true
-            ]
+                'cache_enabled' => true,
+            ],
         ]);
     }
 }

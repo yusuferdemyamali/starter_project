@@ -38,13 +38,13 @@ class ReferenceObserver
             'active_references',
             'references_by_company',
             'featured_references',
-            'reference'
+            'reference',
         ];
 
         foreach ($patterns as $pattern) {
             Cache::forget($pattern);
             for ($i = 1; $i <= 50; $i++) {
-                Cache::forget($pattern . '_' . $i);
+                Cache::forget($pattern.'_'.$i);
             }
         }
     }

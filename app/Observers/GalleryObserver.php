@@ -37,12 +37,12 @@ class GalleryObserver
         $patterns = [
             'active_gallery',
             'gallery_by_slug',
-            'latest_gallery'
+            'latest_gallery',
         ];
 
         foreach ($patterns as $pattern) {
             for ($i = 1; $i <= 50; $i++) {
-                CacheService::remember($pattern . '_' . $i, 1, fn() => null);
+                CacheService::remember($pattern.'_'.$i, 1, fn () => null);
             }
         }
     }

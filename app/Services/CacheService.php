@@ -8,13 +8,18 @@ class CacheService
 {
     // Cache TTL süresi (saniye)
     const DEFAULT_TTL = 3600; // 1 saat
+
     const LONG_TTL = 86400; // 1 gün
+
     const SHORT_TTL = 300; // 5 dakika
 
     // Cache prefix'leri
     const BLOG_PREFIX = 'blog';
+
     const BLOG_CATEGORY_PREFIX = 'blog_category';
+
     const PRODUCT_PREFIX = 'product';
+
     const PRODUCT_CATEGORY_PREFIX = 'product_category';
 
     /**
@@ -33,10 +38,10 @@ class CacheService
         // Database cache driver için pattern matching
         // Bu basit implementation'dır, production'da redis/memcached kullanın
         $keys = [
-            $pattern . '*',
+            $pattern.'*',
             'blog_*',
             'product_*',
-            'category_*'
+            'category_*',
         ];
 
         foreach ($keys as $key) {
@@ -53,24 +58,24 @@ class CacheService
             'blog_',
             'active_blogs',
             'blogs_by_category',
-            'blog_by_slug'
+            'blog_by_slug',
         ];
 
         if ($categoryId) {
-            $patterns[] = 'blog_category_' . $categoryId;
-            $patterns[] = 'category_blogs_paginated_' . $categoryId;
+            $patterns[] = 'blog_category_'.$categoryId;
+            $patterns[] = 'category_blogs_paginated_'.$categoryId;
         }
 
         if ($blogId) {
-            $patterns[] = 'blog_' . $blogId;
-            $patterns[] = 'related_blogs_' . $blogId;
+            $patterns[] = 'blog_'.$blogId;
+            $patterns[] = 'related_blogs_'.$blogId;
         }
 
         foreach ($patterns as $pattern) {
             // Clear multiple variations
             for ($i = 1; $i <= 100; $i++) { // Clear potential variations
-                Cache::forget($pattern . '_' . $i);
-                Cache::forget($pattern . $i);
+                Cache::forget($pattern.'_'.$i);
+                Cache::forget($pattern.$i);
             }
             Cache::forget($pattern);
         }
@@ -86,24 +91,24 @@ class CacheService
             'active_products',
             'products_by_category',
             'products_price_range',
-            'featured_products'
+            'featured_products',
         ];
 
         if ($categoryId) {
-            $patterns[] = 'product_category_' . $categoryId;
-            $patterns[] = 'category_products_paginated_' . $categoryId;
+            $patterns[] = 'product_category_'.$categoryId;
+            $patterns[] = 'category_products_paginated_'.$categoryId;
         }
 
         if ($productId) {
-            $patterns[] = 'product_' . $productId;
-            $patterns[] = 'related_products_' . $productId;
+            $patterns[] = 'product_'.$productId;
+            $patterns[] = 'related_products_'.$productId;
         }
 
         foreach ($patterns as $pattern) {
             // Clear multiple variations
             for ($i = 1; $i <= 200; $i++) { // Clear potential variations
-                Cache::forget($pattern . '_' . $i);
-                Cache::forget($pattern . $i);
+                Cache::forget($pattern.'_'.$i);
+                Cache::forget($pattern.$i);
             }
             Cache::forget($pattern);
         }
@@ -116,18 +121,18 @@ class CacheService
     {
         $patterns = [
             'active_blog_categories',
-            'category_blogs_paginated'
+            'category_blogs_paginated',
         ];
-        
+
         if ($categoryId) {
-            $patterns[] = 'blog_category_' . $categoryId;
-            $patterns[] = 'category_blogs_paginated_' . $categoryId;
+            $patterns[] = 'blog_category_'.$categoryId;
+            $patterns[] = 'category_blogs_paginated_'.$categoryId;
         }
 
         foreach ($patterns as $pattern) {
             for ($i = 1; $i <= 50; $i++) {
-                Cache::forget($pattern . '_' . $i);
-                Cache::forget($pattern . $i);
+                Cache::forget($pattern.'_'.$i);
+                Cache::forget($pattern.$i);
             }
             Cache::forget($pattern);
         }
@@ -144,18 +149,18 @@ class CacheService
         $patterns = [
             'active_product_categories',
             'popular_product_categories',
-            'category_products_paginated'
+            'category_products_paginated',
         ];
-        
+
         if ($categoryId) {
-            $patterns[] = 'product_category_' . $categoryId;
-            $patterns[] = 'category_products_paginated_' . $categoryId;
+            $patterns[] = 'product_category_'.$categoryId;
+            $patterns[] = 'category_products_paginated_'.$categoryId;
         }
 
         foreach ($patterns as $pattern) {
             for ($i = 1; $i <= 100; $i++) {
-                Cache::forget($pattern . '_' . $i);
-                Cache::forget($pattern . $i);
+                Cache::forget($pattern.'_'.$i);
+                Cache::forget($pattern.$i);
             }
             Cache::forget($pattern);
         }
@@ -178,6 +183,6 @@ class CacheService
      */
     public static function generateKey(string $prefix, ...$params): string
     {
-        return $prefix . '_' . implode('_', array_filter($params));
+        return $prefix.'_'.implode('_', array_filter($params));
     }
 }

@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::table('galleries', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable()->after('slug');
             $table->boolean('is_active')->default(true)->after('user_id');
-            
+
             // Foreign key constraint
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });

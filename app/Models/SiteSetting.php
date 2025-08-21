@@ -37,12 +37,12 @@ class SiteSetting extends Model
     public static function getCachedSettings()
     {
         $key = CacheService::generateKey('site_settings');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL, // Site ayarları çok nadiren değişir
             function () {
-                return static::first() ?? new static();
+                return static::first() ?? new static;
             }
         );
     }
@@ -53,12 +53,13 @@ class SiteSetting extends Model
     public static function getCachedSetting(string $key, $default = null)
     {
         $cacheKey = CacheService::generateKey('site_setting', $key);
-        
+
         return CacheService::remember(
             $cacheKey,
             CacheService::LONG_TTL,
             function () use ($key, $default) {
                 $settings = static::first();
+
                 return $settings ? ($settings->{$key} ?? $default) : $default;
             }
         );
@@ -70,13 +71,15 @@ class SiteSetting extends Model
     public static function getCachedSocialMediaLinks()
     {
         $key = CacheService::generateKey('social_media_links');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
             function () {
                 $settings = static::first();
-                if (!$settings) return [];
+                if (! $settings) {
+                    return [];
+                }
 
                 return [
                     'facebook' => $settings->site_facebook_url,
@@ -95,13 +98,15 @@ class SiteSetting extends Model
     public static function getCachedContactInfo()
     {
         $key = CacheService::generateKey('contact_info');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
             function () {
                 $settings = static::first();
-                if (!$settings) return [];
+                if (! $settings) {
+                    return [];
+                }
 
                 return [
                     'email' => $settings->site_email,
@@ -120,13 +125,15 @@ class SiteSetting extends Model
     public static function getCachedSeoInfo()
     {
         $key = CacheService::generateKey('seo_info');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
             function () {
                 $settings = static::first();
-                if (!$settings) return [];
+                if (! $settings) {
+                    return [];
+                }
 
                 return [
                     'title' => $settings->site_seo_title,
@@ -143,12 +150,13 @@ class SiteSetting extends Model
     public static function getCachedMaintenanceStatus(): bool
     {
         $key = CacheService::generateKey('maintenance_status');
-        
+
         return CacheService::remember(
             $key,
             CacheService::SHORT_TTL, // Bakım modu sık kontrol edilebilir
             function () {
                 $settings = static::first();
+
                 return $settings ? (bool) $settings->is_maintenance : false;
             }
         );

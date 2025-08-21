@@ -38,13 +38,13 @@ class AboutObserver
             'active_about_sections',
             'about_by_section',
             'main_about_content',
-            'about_sections_by_category'
+            'about_sections_by_category',
         ];
 
         foreach ($patterns as $pattern) {
             Cache::forget($pattern);
             for ($i = 1; $i <= 20; $i++) {
-                Cache::forget($pattern . '_' . $i);
+                Cache::forget($pattern.'_'.$i);
             }
         }
     }

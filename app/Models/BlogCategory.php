@@ -13,9 +13,9 @@ class BlogCategory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 
+        'name',
         'slug',
-        'is_active'
+        'is_active',
     ];
 
     protected $casts = [
@@ -71,7 +71,7 @@ class BlogCategory extends Model
     public static function getCachedActiveCategories()
     {
         $key = CacheService::generateKey('active_blog_categories');
-        
+
         return CacheService::remember(
             $key,
             CacheService::LONG_TTL,
@@ -90,7 +90,7 @@ class BlogCategory extends Model
     public function getCachedBlogsWithPagination(int $perPage = 10)
     {
         $key = CacheService::generateKey('category_blogs_paginated', $this->id, $perPage, request('page', 1));
-        
+
         return CacheService::remember(
             $key,
             CacheService::SHORT_TTL, // Pagination için kısa cache
@@ -110,10 +110,10 @@ class BlogCategory extends Model
     protected static function booted()
     {
         static::creating(function ($category) {
-            if (empty($category->slug) && !empty($category->name)) {
+            if (empty($category->slug) && ! empty($category->name)) {
                 $category->slug = \Str::slug($category->name);
             }
-            
+
             // is_active default değeri
             if ($category->is_active === null) {
                 $category->is_active = true;

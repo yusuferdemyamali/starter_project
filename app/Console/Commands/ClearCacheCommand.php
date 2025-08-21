@@ -32,8 +32,9 @@ class ClearCacheCommand extends Command
         $type = $this->option('type');
         $force = $this->option('force');
 
-        if (!$force && !$this->confirm("Are you sure you want to clear {$type} cache?")) {
+        if (! $force && ! $this->confirm("Are you sure you want to clear {$type} cache?")) {
             $this->info('Operation cancelled.');
+
             return self::SUCCESS;
         }
 
@@ -49,13 +50,14 @@ class ClearCacheCommand extends Command
             };
 
             $this->info("✅ {$type} cache cleared successfully!");
-            
+
             // Cache statistics
             $this->showCacheStats();
 
             return self::SUCCESS;
         } catch (\Exception $e) {
             $this->error("❌ Error clearing cache: {$e->getMessage()}");
+
             return self::FAILURE;
         }
     }
@@ -106,22 +108,22 @@ class ClearCacheCommand extends Command
     {
         $this->newLine();
         $this->info('📊 Cache Statistics:');
-        
+
         // Test cache operations
-        $testKey = 'cache_test_' . time();
+        $testKey = 'cache_test_'.time();
         $startTime = microtime(true);
-        
+
         Cache::put($testKey, 'test', 1);
         $cached = Cache::get($testKey);
         Cache::forget($testKey);
-        
+
         $responseTime = round((microtime(true) - $startTime) * 1000, 2);
-        
+
         $this->table(
             ['Metric', 'Value'],
             [
                 ['Cache Driver', config('cache.default')],
-                ['Response Time', $responseTime . ' ms'],
+                ['Response Time', $responseTime.' ms'],
                 ['Status', $cached === 'test' ? '✅ Working' : '❌ Not Working'],
             ]
         );

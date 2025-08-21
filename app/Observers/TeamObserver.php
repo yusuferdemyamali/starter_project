@@ -55,12 +55,12 @@ class TeamObserver
         $patterns = [
             'active_team_members',
             'team_members_by_position',
-            'team_member'
+            'team_member',
         ];
 
         foreach ($patterns as $pattern) {
             for ($i = 1; $i <= 50; $i++) {
-                CacheService::remember($pattern . '_' . $i, 1, fn() => null);
+                CacheService::remember($pattern.'_'.$i, 1, fn () => null);
             }
         }
     }
