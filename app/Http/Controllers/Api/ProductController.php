@@ -113,7 +113,7 @@ class ProductController extends Controller
             ], 404);
         }
 
-        $relatedProducts = $product->getCachedRelatedProducts(4);
+        $relatedProducts = $product->getRelatedProducts(4);
 
         return response()->json([
             'success' => true,
