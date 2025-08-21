@@ -21,7 +21,7 @@ class SiteSettingResource extends Resource
 
     protected static ?string $navigationGroup = 'Site Yönetimi';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 6;
 
     protected static ?string $recordTitleAttribute = 'site_name';
 

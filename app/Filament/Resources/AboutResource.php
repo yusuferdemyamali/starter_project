@@ -26,10 +26,14 @@ class AboutResource extends Resource
 
     public static function getNavigationUrl(): string
     {
-        $record = static::getModel()::first();
+        try {
+            $record = static::getModel()::first();
 
-        if ($record) {
-            return static::getUrl('edit', ['record' => $record]);
+            if ($record) {
+                return static::getUrl('edit', ['record' => $record]);
+            }
+        } catch (\Exception $e) {
+            // Hata durumunda create sayfasına yönlendir
         }
 
         return static::getUrl('create');

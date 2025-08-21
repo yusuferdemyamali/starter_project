@@ -60,7 +60,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugin(\TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make())
             ->brandName('Forse Reklam')
-            ->brandLogo(asset('images/logo.png'))
+            ->brandLogo('images/logo.png')
             ->brandLogoHeight('2.5rem');
     }
 }
